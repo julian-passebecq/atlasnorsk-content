@@ -18,3 +18,4 @@ jobs:
         with:
           python-version: "3.12"
       - run: python tools/validate_content.py
+      - run: python -m unittest discover -s tools -p 'test_*.py'
