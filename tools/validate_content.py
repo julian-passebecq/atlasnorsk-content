@@ -58,6 +58,8 @@ def validate_news_article(path: Path, article: Any, errors: list[str]) -> None:
     themes = article.get("themes")
     if not isinstance(themes, list) or not themes or not all(isinstance(x, str) and x.strip() for x in themes):
         errors.append(f"{label}.themes: expected non-empty string array")
+    elif len(themes) != len(set(themes)):
+        errors.append(f"{label}.themes: duplicate themes are not allowed")
 
     source = article.get("source")
     if not isinstance(source, dict):
@@ -68,10 +70,14 @@ def validate_news_article(path: Path, article: Any, errors: list[str]) -> None:
         if source.get("url") and not is_http_url(source.get("url")):
             errors.append(f"{label}.source.url: only http/https URLs are allowed")
 
-    rights = article.get("rights") or {}
-    storage_mode = rights.get("storageMode")
-    if storage_mode not in {None, "link-only", "user-provided", "licensed", "public-domain"}:
-        errors.append(f"{label}.rights.storageMode: unsupported value")
+    rights = article.get("rights")
+    storage_mode = None
+    if not isinstance(rights, dict):
+        errors.append(f"{label}.rights: expected object")
+    else:
+        storage_mode = rights.get("storageMode")
+        if storage_mode not in {"link-only", "user-provided", "licensed", "public-domain"}:
+            errors.append(f"{label}.rights.storageMode: required and unsupported value")
 
     sections = article.get("sections")
     if not isinstance(sections, list) or not sections:
