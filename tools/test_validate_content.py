@@ -42,11 +42,23 @@ class NewsValidationTests(unittest.TestCase):
     def test_accepts_valid_article(self):
         self.assertEqual(self.validate(valid_article()), [])
 
+    def test_requires_explicit_rights_metadata(self):
+        article = valid_article()
+        article.pop("rights")
+        errors = self.validate(article)
+        self.assertTrue(any(".rights: expected object" in error for error in errors))
+
     def test_rejects_link_only_source_text(self):
         article = valid_article()
         article["rights"] = {"storageMode": "link-only"}
         errors = self.validate(article)
         self.assertTrue(any("must not mirror source text" in error for error in errors))
+
+    def test_rejects_duplicate_themes(self):
+        article = valid_article()
+        article["themes"] = ["learning", "learning"]
+        errors = self.validate(article)
+        self.assertTrue(any("duplicate themes" in error for error in errors))
 
     def test_rejects_duplicate_section_ids(self):
         article = valid_article()
