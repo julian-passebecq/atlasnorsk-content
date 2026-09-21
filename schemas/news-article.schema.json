@@ -10,6 +10,7 @@
     "title",
     "date",
     "source",
+    "rights",
     "level",
     "themes",
     "sections",
@@ -18,26 +19,67 @@
     "usefulPhrases"
   ],
   "properties": {
-    "schemaVersion": { "const": 1 },
-    "type": { "const": "newsArticle" },
-    "id": { "type": "string", "minLength": 1 },
-    "title": { "type": "string", "minLength": 1 },
-    "date": { "type": "string", "format": "date" },
-    "level": { "enum": ["A2", "B1", "B2", "C1"] },
+    "schemaVersion": {
+      "const": 1
+    },
+    "type": {
+      "const": "newsArticle"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "level": {
+      "enum": [
+        "A2",
+        "B1",
+        "B2",
+        "C1"
+      ]
+    },
     "themes": {
       "type": "array",
-      "items": { "type": "string" },
-      "uniqueItems": true
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true,
+      "minItems": 1
     },
     "source": {
       "type": "object",
-      "required": ["title", "publisher", "url", "language"],
+      "required": [
+        "title",
+        "publisher",
+        "url",
+        "language"
+      ],
       "properties": {
-        "title": { "type": "string" },
-        "publisher": { "type": "string" },
-        "url": { "type": "string" },
-        "publishedAt": { "type": ["string", "null"] },
-        "language": { "type": "string" }
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "publishedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "language": {
+          "type": "string"
+        }
       },
       "additionalProperties": false
     },
@@ -45,18 +87,34 @@
       "type": "object",
       "properties": {
         "storageMode": {
-          "enum": ["link-only", "user-provided", "licensed", "public-domain"]
+          "enum": [
+            "link-only",
+            "user-provided",
+            "licensed",
+            "public-domain"
+          ]
         },
-        "note": { "type": "string" }
+        "note": {
+          "type": "string"
+        }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "required": [
+        "storageMode"
+      ]
     },
     "summary": {
       "type": "object",
       "properties": {
-        "norsk": { "type": "string" },
-        "english": { "type": "string" },
-        "french": { "type": "string" }
+        "norsk": {
+          "type": "string"
+        },
+        "english": {
+          "type": "string"
+        },
+        "french": {
+          "type": "string"
+        }
       },
       "additionalProperties": false
     },
@@ -64,32 +122,75 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "norsk"],
+        "required": [
+          "id",
+          "norsk"
+        ],
         "properties": {
-          "id": { "type": "string" },
-          "sourceText": { "type": "string" },
-          "norsk": { "type": "string" },
-          "english": { "type": "string" },
-          "french": { "type": "string" },
-          "note": { "type": "string" }
+          "id": {
+            "type": "string"
+          },
+          "sourceText": {
+            "type": "string"
+          },
+          "norsk": {
+            "type": "string"
+          },
+          "english": {
+            "type": "string"
+          },
+          "french": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
         },
         "additionalProperties": false
-      }
+      },
+      "minItems": 1
     },
     "vocabulary": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["term", "type", "level", "english", "french"],
+        "required": [
+          "term",
+          "type",
+          "level",
+          "english",
+          "french"
+        ],
         "properties": {
-          "term": { "type": "string" },
-          "marker": { "type": "string" },
-          "type": { "type": "string" },
-          "level": { "enum": ["A2", "B1", "B2", "C1"] },
-          "english": { "type": "string" },
-          "french": { "type": "string" },
-          "forms": { "type": "string" },
-          "note": { "type": "string" }
+          "term": {
+            "type": "string"
+          },
+          "marker": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "level": {
+            "enum": [
+              "A2",
+              "B1",
+              "B2",
+              "C1"
+            ]
+          },
+          "english": {
+            "type": "string"
+          },
+          "french": {
+            "type": "string"
+          },
+          "forms": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
         },
         "additionalProperties": false
       }
@@ -98,11 +199,20 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["topic", "example"],
+        "required": [
+          "topic",
+          "example"
+        ],
         "properties": {
-          "topic": { "type": "string" },
-          "example": { "type": "string" },
-          "explanation": { "type": "string" }
+          "topic": {
+            "type": "string"
+          },
+          "example": {
+            "type": "string"
+          },
+          "explanation": {
+            "type": "string"
+          }
         },
         "additionalProperties": false
       }
@@ -111,12 +221,24 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["norsk", "english", "french"],
+        "required": [
+          "norsk",
+          "english",
+          "french"
+        ],
         "properties": {
-          "norsk": { "type": "string" },
-          "english": { "type": "string" },
-          "french": { "type": "string" },
-          "function": { "type": "string" }
+          "norsk": {
+            "type": "string"
+          },
+          "english": {
+            "type": "string"
+          },
+          "french": {
+            "type": "string"
+          },
+          "function": {
+            "type": "string"
+          }
         },
         "additionalProperties": false
       }
