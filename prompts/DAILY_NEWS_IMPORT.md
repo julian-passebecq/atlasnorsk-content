@@ -31,12 +31,16 @@ Then add a manifest entry to:
 
 ## Source/copyright handling
 
+Every article **must** declare `rights.storageMode`.
+
 For a normal publisher URL:
+- set `rights.storageMode` to `link-only`;
 - keep source title, publisher, date and URL;
-- do not mirror the entire publisher article into a public repository;
-- store learning-oriented transformations, summaries and only source excerpts needed for study.
+- do not store publisher source text in `sections[].sourceText`;
+- store only AtlasNorsk learning transformations, summaries, vocabulary, grammar and reusable phrases.
 
 If the user supplied the text directly and wants it stored, set `rights.storageMode` to `user-provided`.
+Use `licensed` or `public-domain` only when that status is actually known.
 
 ## Manifest entry
 
