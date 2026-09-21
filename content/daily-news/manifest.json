@@ -3,5 +3,14 @@
   "type": "atlasnorsk-manifest",
   "collection": "daily-news",
   "updatedAt": "2026-09-21",
-  "items": []
+  "items": [
+    {
+      "id": "news-2026-09-21-atlasnorsk-format-test",
+      "path": "content/daily-news/2026/09/2026-09-21-atlasnorsk-format-test.json",
+      "title": "AtlasNorsk daily-news format test",
+      "date": "2026-09-21",
+      "level": "B1",
+      "themes": ["technology", "learning"]
+    }
+  ]
 }

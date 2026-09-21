@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "type": "newsArticle",
+  "id": "news-2026-09-21-atlasnorsk-format-test",
+  "title": "AtlasNorsk daily-news format test",
+  "date": "2026-09-21",
+  "source": {
+    "title": "AtlasNorsk synthetic test",
+    "publisher": "AtlasNorsk",
+    "url": "https://github.com/julian-passebecq/atlasnorsk-content",
+    "publishedAt": "2026-09-21",
+    "language": "en"
+  },
+  "rights": {
+    "storageMode": "public-domain",
+    "note": "Synthetic text written only to verify the AtlasNorsk content pipeline."
+  },
+  "level": "B1",
+  "themes": ["technology", "learning"],
+  "summary": {
+    "norsk": "Denne testartikkelen viser at AtlasNorsk kan hente læringsinnhold direkte fra innholdsrepoet.",
+    "english": "This test article verifies that AtlasNorsk can load learning content directly from the content repository.",
+    "french": "Cet article de test vérifie qu’AtlasNorsk peut charger le contenu pédagogique directement depuis le dépôt de contenu."
+  },
+  "sections": [
+    {
+      "id": "s1",
+      "sourceText": "A small language app can turn daily reading into structured practice.",
+      "norsk": "En liten språkapp kan gjøre daglig lesing om til strukturert øving.",
+      "english": "A small language app can turn daily reading into structured practice.",
+      "french": "Une petite application linguistique peut transformer la lecture quotidienne en entraînement structuré."
+    },
+    {
+      "id": "s2",
+      "sourceText": "New articles can be added as JSON without changing the application.",
+      "norsk": "Nye artikler kan legges til som JSON uten å endre selve appen.",
+      "english": "New articles can be added as JSON without changing the application.",
+      "french": "De nouveaux articles peuvent être ajoutés en JSON sans modifier l’application elle-même."
+    }
+  ],
+  "vocabulary": [
+    {
+      "term": "øving",
+      "type": "Noun",
+      "level": "B1",
+      "english": "practice",
+      "french": "entraînement"
+    },
+    {
+      "term": "legge til",
+      "marker": "å",
+      "type": "Verb expression",
+      "level": "B1",
+      "english": "add",
+      "french": "ajouter"
+    }
+  ],
+  "grammar": [
+    {
+      "topic": "kan + infinitive",
+      "example": "En app kan gjøre lesing om til øving.",
+      "explanation": "A modal verb is followed by the infinitive without å."
+    }
+  ],
+  "usefulPhrases": [
+    {
+      "norsk": "gjøre noe om til noe",
+      "english": "turn something into something",
+      "french": "transformer quelque chose en quelque chose",
+      "function": "change / transformation"
+    }
+  ]
+}
