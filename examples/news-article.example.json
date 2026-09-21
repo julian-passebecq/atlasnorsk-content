@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "type": "newsArticle",
+  "id": "news-2026-09-21-example",
+  "title": "Example learning article",
+  "date": "2026-09-21",
+  "source": {
+    "title": "Example source",
+    "publisher": "AtlasNorsk",
+    "url": "https://github.com/julian-passebecq/atlasnorsk-content",
+    "publishedAt": "2026-09-21",
+    "language": "en"
+  },
+  "rights": {
+    "storageMode": "public-domain",
+    "note": "Synthetic example written for the AtlasNorsk schema."
+  },
+  "level": "B1",
+  "themes": ["technology", "learning"],
+  "summary": {
+    "norsk": "Dette er et kort eksempel på hvordan en nyhetsressurs kan se ut.",
+    "english": "This is a short example of the news-resource format.",
+    "french": "Ceci est un court exemple du format de ressource d’actualité."
+  },
+  "sections": [
+    {
+      "id": "s1",
+      "sourceText": "A small language app can turn daily reading into structured practice.",
+      "norsk": "En liten språkapp kan gjøre daglig lesing om til strukturert øving.",
+      "english": "A small language app can turn daily reading into structured practice.",
+      "french": "Une petite application linguistique peut transformer la lecture quotidienne en entraînement structuré."
+    }
+  ],
+  "vocabulary": [
+    {
+      "term": "øving",
+      "type": "Noun",
+      "level": "B1",
+      "english": "practice",
+      "french": "entraînement"
+    }
+  ],
+  "grammar": [
+    {
+      "topic": "kan + infinitive",
+      "example": "En app kan gjøre lesing om til øving.",
+      "explanation": "Modal verb followed by infinitive without å."
+    }
+  ],
+  "usefulPhrases": [
+    {
+      "norsk": "gjøre noe om til noe",
+      "english": "turn something into something",
+      "french": "transformer quelque chose en quelque chose",
+      "function": "change / transformation"
+    }
+  ]
+}

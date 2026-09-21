@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "type": "atlasnorsk-content-index",
+  "updatedAt": "2026-09-21",
+  "collections": {
+    "dailyNews": "content/daily-news/manifest.json",
+    "vocabulary": "content/vocabulary/manifest.json",
+    "grammar": "content/grammar/manifest.json",
+    "tablebooks": "content/tablebooks/manifest.json",
+    "phrases": "content/phrases/manifest.json",
+    "cheatsheets": "content/cheatsheets/manifest.json",
+    "courses": "content/courses/manifest.json"
+  }
+}

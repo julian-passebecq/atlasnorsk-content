@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/julian-passebecq/atlasnorsk-content/schemas/news-article.schema.json",
+  "title": "AtlasNorsk News Article",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "type",
+    "id",
+    "title",
+    "date",
+    "source",
+    "level",
+    "themes",
+    "sections",
+    "vocabulary",
+    "grammar",
+    "usefulPhrases"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "type": { "const": "newsArticle" },
+    "id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "date": { "type": "string", "format": "date" },
+    "level": { "enum": ["A2", "B1", "B2", "C1"] },
+    "themes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "source": {
+      "type": "object",
+      "required": ["title", "publisher", "url", "language"],
+      "properties": {
+        "title": { "type": "string" },
+        "publisher": { "type": "string" },
+        "url": { "type": "string" },
+        "publishedAt": { "type": ["string", "null"] },
+        "language": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "rights": {
+      "type": "object",
+      "properties": {
+        "storageMode": {
+          "enum": ["link-only", "user-provided", "licensed", "public-domain"]
+        },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "norsk": { "type": "string" },
+        "english": { "type": "string" },
+        "french": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "norsk"],
+        "properties": {
+          "id": { "type": "string" },
+          "sourceText": { "type": "string" },
+          "norsk": { "type": "string" },
+          "english": { "type": "string" },
+          "french": { "type": "string" },
+          "note": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "vocabulary": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["term", "type", "level", "english", "french"],
+        "properties": {
+          "term": { "type": "string" },
+          "marker": { "type": "string" },
+          "type": { "type": "string" },
+          "level": { "enum": ["A2", "B1", "B2", "C1"] },
+          "english": { "type": "string" },
+          "french": { "type": "string" },
+          "forms": { "type": "string" },
+          "note": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "grammar": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["topic", "example"],
+        "properties": {
+          "topic": { "type": "string" },
+          "example": { "type": "string" },
+          "explanation": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "usefulPhrases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["norsk", "english", "french"],
+        "properties": {
+          "norsk": { "type": "string" },
+          "english": { "type": "string" },
+          "french": { "type": "string" },
+          "function": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
