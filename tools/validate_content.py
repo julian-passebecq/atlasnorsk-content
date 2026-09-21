@@ -135,6 +135,14 @@ def validate_news_article(path: Path, article: Any, errors: list[str]) -> None:
             require_text(entry.get(field), f"{entry_label}.{field}", errors)
 
 
+def is_safe_manifest_path(collection: str, rel: Any) -> bool:
+    if not isinstance(rel, str) or not rel:
+        return False
+    if ".." in Path(rel).parts or "://" in rel or rel.startswith("/"):
+        return False
+    return rel.startswith(f"content/{collection}/")
+
+
 def validate_manifest(path: Path, manifest: Any, errors: list[str], seen_ids: set[str]) -> int:
     label = str(path.relative_to(ROOT))
     if not isinstance(manifest, dict):
@@ -144,6 +152,14 @@ def validate_manifest(path: Path, manifest: Any, errors: list[str], seen_ids: se
         errors.append(f"{label}: unsupported schemaVersion")
     if manifest.get("type") != "atlasnorsk-manifest":
         errors.append(f"{label}: unexpected manifest type")
+
+    collection = manifest.get("collection")
+    expected_collection = path.parent.name
+    if collection != expected_collection:
+        errors.append(
+            f"{label}: collection must match manifest directory ({expected_collection})"
+        )
+
     if not isinstance(manifest.get("items"), list):
         errors.append(f"{label}: items must be an array")
         return 0
@@ -170,7 +186,7 @@ def validate_manifest(path: Path, manifest: Any, errors: list[str], seen_ids: se
         if not isinstance(rel, str) or not rel:
             continue
 
-        if not rel.startswith("content/") or ".." in Path(rel).parts or "://" in rel:
+        if not is_safe_manifest_path(str(collection), rel):
             errors.append(f"{item_label}: unsafe content path {rel!r}")
             continue
 
