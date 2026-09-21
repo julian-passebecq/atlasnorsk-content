@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from validate_content import ROOT, is_safe_manifest_path, validate_news_article
+from validate_content import ROOT, find_unmanifested_json, is_safe_manifest_path, validate_news_article
 
 
 def valid_article():
@@ -91,6 +91,31 @@ class NewsValidationTests(unittest.TestCase):
                 "content/daily-news/../grammar/article.json",
             )
         )
+
+    def test_detects_unmanifested_json_resources(self):
+        with tempfile.TemporaryDirectory(dir=ROOT) as temp_name:
+            temp_root = Path(temp_name)
+            collection = temp_root / "content" / "daily-news"
+            collection.mkdir(parents=True)
+            article = collection / "article.json"
+            article.write_text("{}", encoding="utf-8")
+
+            manifest = {"items": []}
+            self.assertEqual(
+                find_unmanifested_json(collection, manifest, root=temp_root),
+                ["content/daily-news/article.json"],
+            )
+
+            manifest["items"] = [
+                {
+                    "id": "article",
+                    "path": "content/daily-news/article.json",
+                }
+            ]
+            self.assertEqual(
+                find_unmanifested_json(collection, manifest, root=temp_root),
+                [],
+            )
 
 
 if __name__ == "__main__":
