@@ -143,6 +143,27 @@ def is_safe_manifest_path(collection: str, rel: Any) -> bool:
     return rel.startswith(f"content/{collection}/")
 
 
+def find_unmanifested_json(
+    collection_dir: Path,
+    manifest: Any,
+    root: Path = ROOT,
+) -> list[str]:
+    if not isinstance(manifest, dict) or not isinstance(manifest.get("items"), list):
+        return []
+
+    referenced = {
+        item.get("path")
+        for item in manifest["items"]
+        if isinstance(item, dict) and isinstance(item.get("path"), str)
+    }
+    actual = {
+        path.relative_to(root).as_posix()
+        for path in collection_dir.rglob("*.json")
+        if path.name != "manifest.json"
+    }
+    return sorted(actual - referenced)
+
+
 def validate_manifest(path: Path, manifest: Any, errors: list[str], seen_ids: set[str]) -> int:
     label = str(path.relative_to(ROOT))
     if not isinstance(manifest, dict):
@@ -166,6 +187,7 @@ def validate_manifest(path: Path, manifest: Any, errors: list[str], seen_ids: se
 
     count = 0
     manifest_dates: list[str] = []
+    seen_paths: set[str] = set()
     for index, item in enumerate(manifest["items"]):
         item_label = f"{label}.items[{index}]"
         if not isinstance(item, dict):
@@ -185,6 +207,11 @@ def validate_manifest(path: Path, manifest: Any, errors: list[str], seen_ids: se
 
         if not isinstance(rel, str) or not rel:
             continue
+
+        if rel in seen_paths:
+            errors.append(f"{item_label}: duplicate resource path {rel!r}")
+            continue
+        seen_paths.add(rel)
 
         if not is_safe_manifest_path(str(collection), rel):
             errors.append(f"{item_label}: unsafe content path {rel!r}")
@@ -246,12 +273,17 @@ def main() -> None:
     seen_ids: set[str] = set()
     manifested_resources = 0
     for manifest_path in sorted(CONTENT.rglob("manifest.json")):
+        manifest = load(manifest_path)
         manifested_resources += validate_manifest(
             manifest_path,
-            load(manifest_path),
+            manifest,
             errors,
             seen_ids,
         )
+        for orphan in find_unmanifested_json(manifest_path.parent, manifest):
+            errors.append(
+                f"{manifest_path.relative_to(ROOT)}: unmanifested resource {orphan}"
+            )
 
     if errors:
         print("\n".join(f"ERROR: {error}" for error in errors))
