@@ -5,6 +5,7 @@ import json
 from datetime import date
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content"
@@ -26,6 +27,13 @@ def validate_date(value: Any, label: str, errors: list[str]) -> None:
         date.fromisoformat(str(value))
     except ValueError:
         errors.append(f"{label}: expected YYYY-MM-DD date")
+
+
+def is_http_url(value: Any) -> bool:
+    if not isinstance(value, str):
+        return False
+    parsed = urlparse(value)
+    return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
 
 
 def validate_news_article(path: Path, article: Any, errors: list[str]) -> None:
@@ -57,6 +65,8 @@ def validate_news_article(path: Path, article: Any, errors: list[str]) -> None:
     else:
         for field in ("title", "publisher", "url", "language"):
             require_text(source.get(field), f"{label}.source.{field}", errors)
+        if source.get("url") and not is_http_url(source.get("url")):
+            errors.append(f"{label}.source.url: only http/https URLs are allowed")
 
     rights = article.get("rights") or {}
     storage_mode = rights.get("storageMode")
@@ -160,7 +170,17 @@ def validate_manifest(path: Path, manifest: Any, errors: list[str], seen_ids: se
         if not isinstance(rel, str) or not rel:
             continue
 
-        target = ROOT / rel
+        if not rel.startswith("content/") or ".." in Path(rel).parts or "://" in rel:
+            errors.append(f"{item_label}: unsafe content path {rel!r}")
+            continue
+
+        target = (ROOT / rel).resolve()
+        try:
+            target.relative_to(ROOT.resolve())
+        except ValueError:
+            errors.append(f"{item_label}: path escapes repository root")
+            continue
+
         if not target.exists():
             errors.append(f"{item_label}: missing referenced file {rel!r}")
             continue
