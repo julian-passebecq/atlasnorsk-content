@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from validate_content import validate_news_article
+from validate_content import ROOT, validate_news_article
 
 
 def valid_article():
@@ -32,7 +32,7 @@ def valid_article():
 
 class NewsValidationTests(unittest.TestCase):
     def setUp(self):
-        self.path = Path("content/daily-news/2026/09/test.json")
+        self.path = ROOT / "content/daily-news/2026/09/test.json"
 
     def validate(self, article):
         errors = []
