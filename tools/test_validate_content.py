@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from validate_content import ROOT, validate_news_article
+from validate_content import ROOT, is_safe_manifest_path, validate_news_article
 
 
 def valid_article():
@@ -71,6 +71,26 @@ class NewsValidationTests(unittest.TestCase):
         article["source"]["url"] = "javascript:alert(1)"
         errors = self.validate(article)
         self.assertTrue(any("only http/https URLs" in error for error in errors))
+
+    def test_daily_news_manifest_path_stays_inside_daily_news_collection(self):
+        self.assertTrue(
+            is_safe_manifest_path(
+                "daily-news",
+                "content/daily-news/2026/09/article.json",
+            )
+        )
+        self.assertFalse(
+            is_safe_manifest_path(
+                "daily-news",
+                "content/grammar/article.json",
+            )
+        )
+        self.assertFalse(
+            is_safe_manifest_path(
+                "daily-news",
+                "content/daily-news/../grammar/article.json",
+            )
+        )
 
 
 if __name__ == "__main__":
