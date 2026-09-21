@@ -66,6 +66,12 @@ class NewsValidationTests(unittest.TestCase):
         errors = self.validate(article)
         self.assertTrue(any(".norsk" in error for error in errors))
 
+    def test_rejects_unsafe_source_protocol(self):
+        article = valid_article()
+        article["source"]["url"] = "javascript:alert(1)"
+        errors = self.validate(article)
+        self.assertTrue(any("only http/https URLs" in error for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()
